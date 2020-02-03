@@ -1,0 +1,285 @@
+---
+title: "<center>Capstone Machine Learning : Concrete Predict Case</center>"
+author: "<center>Donigo Fernando Sinaga</center>"
+date: "<center>September 16, 2019</center>"
+output: 
+  html_document:
+    self_contained: no
+    toc: true
+    toc_float: 
+        collapsed: true
+        smooth_scroll: true
+    df_print : paged
+    number_sections: true
+    theme: darkly
+    highlight: pygments
+    code_folding: "show"
+    includes:
+      after_body: footer.html
+  fig_caption: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen = 9999)
+```
+
+# Sinopsis
+Laporan analisis ini dibuat untuk Capstone Machine Learning. Pada laporan ini, akan dibuat model random forest dengan beberapa prediktor dan akan dicek apakah model sudah bagus atau tidak. Syarat untuk model tersebut adalah `Rsquared > 90%` dan `MAE < 4`.
+
+
+: Showing or hiding code chunks can be done by choosing options on dropdown menu beside of this report's title or on each code chunk.
+
+***
+<br><br>
+
+# Preparation
+## Library Setup {.tabset}
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(GGally)
+library(caret)
+library(randomForest)
+library(forecast)
+library(partykit)
+library(rsq)
+```
+
+## Read Data {.tabset}
+```{r}
+# import dataset
+data_train <- read_csv("concrete-rm-predict/data/data-train.csv")
+
+# quick check
+head(data_train, 10)
+```
+
+```{r}
+# import dataset
+data_submission <- read_csv("concrete-rm-predict/data/data-submission.csv")
+
+# quick check
+head(data_submission, 10)
+```
+
+## Check NA {.tabset}
+```{r}
+colSums(is.na(data_train))
+```
+
+## Cross Validation {.tabset}
+```{r}
+set.seed(80)
+index <- sample(nrow(data_train), 0.95*nrow(data_train))
+
+conc_train <- data_train[index,]
+conc_test <- data_train[-index,]
+```
+
+# Pembuatan Model
+## Linear Regression Model 1 {.tabset}
+```{r}
+modellm1 <- lm(strength~., conc_train)
+```
+    Model dibuat seperti diatas karena seluruh variabel selain strength pada data concrete memiliki korelasi terhadap strength.
+
+### Stepwise Regression : Backward
+```{r}
+step(modellm1, direction = "backward")
+```
+  Dari hasil diatas, dapat dilihat bahwa model diatas sudah memiliki AIC terkecil, sehingga tidak perlu ada variabel prediktor yang dihilangkan dari model.
+
+### Cek Outlier
+```{r}
+plot(modellm1)
+boxplot(conc_train)
+```
+    Dari gambar plot ke-4, yaitu Residuals vs Leverage plot, terlihat tidak ada observasi yang berada di luar garis Cook's distance menandakan tidak ada observasi yang high influence.
+    Pada boxplot yang dihasilkan, outlier (titik) di setiap kategori juga terlihat tidak terlalu jauh dari boxplotnya dan tidak berjumlah banyak sehingga tidak perlu ada outlier yang harus dihapuskan.
+
+### Cek Korelasi
+```{r}
+cor(conc_train$strength, conc_train$cement)
+cor(conc_train$strength, conc_train$slag)
+cor(conc_train$strength, conc_train$flyash)
+cor(conc_train$strength, conc_train$water)
+cor(conc_train$strength, conc_train$super_plast)
+cor(conc_train$strength, conc_train$coarse_agg)
+cor(conc_train$strength, conc_train$fine_agg)
+cor(conc_train$strength, conc_train$age)
+```
+    Dari hasil diatas, dapat disimpulkan bahwa
+1. Variabel `strength` memiliki korelasi positif terhadap : `cement`, `slag`, `super_plast`, dan `age`.
+2. Variabel `strength` memiliki korelasi negatif terhadap : `flyash`, `water`, `coarse_agg`, dan `fine_agg`.
+    
+Hasil plot korelasi juga dapat dilihat dalam bentuk histogram seperti di bawah ini.
+```{r}
+ggcorr(conc_train, label = T)
+```
+
+Kemudian, akan kita tes apakah korelasi dari seluruh variabel prediktor yang ada terhadap variabel `strength` signifikan menggunakan metode `cor.test`
+```{r}
+cor.test(conc_train$strength, conc_train$cement)
+cor.test(conc_train$strength, conc_train$slag)
+cor.test(conc_train$strength, conc_train$flyash)
+cor.test(conc_train$strength, conc_train$water)
+cor.test(conc_train$strength, conc_train$super_plast)
+cor.test(conc_train$strength, conc_train$coarse_agg)
+cor.test(conc_train$strength, conc_train$fine_agg)
+cor.test(conc_train$strength, conc_train$age)
+```
+    Dari hasil correlation test diatas, dapat disimpulkan bahwa semua variabel prediktor memiliki korelasi yang signifikan terhadap variabel `strength` karena hasil cor.test dari setiap variabel prediktor memiliki nilai p-val < 0.05 (alpha yang ditentukan).
+
+### Cek summary
+```{r}
+summary(modellm1)
+```
+    Dari hasil summary diatas, dapat dilihat bahwa R-squared masih bernilai 61.5% yang berarti belum mencapai tujuan kita.
+    Kemudian, dapat dilihat pula significant codes dari variabel fine_agg sangat rendah, terlebih lagi dari hasil ggcorr pun fine_agg juga memiliki korelasi yang rendah, sehingga untuk kedepannya fine_agg tidak digunakan.
+
+### Cek RMSE
+```{r}
+sqrt(mean((modellm1$residuals)^2))
+range(conc_train$strength)
+```
+    Hasil dari kedua baris diatas menunjukkan besaran Root Mean Square Error dan rentang strength. Dapat dilihat besaran RMSE masih berada di dalam rentang strength. Hal ini sudah dapat dikatakan bahwa model ini baik, ditambah lagi RMSE lebih mendekati ke nilai minimum dari strength.
+  
+### Evaluasi Model
+```{r}
+predlm1 <- predict(modellm1, conc_test)
+accuracy(predlm1, conc_test$strength)
+rsq(modellm1, adj = T, data = conc_test)
+```
+    Dari hasil evaluasi diatas, nilai MAE bernilai 8.71 dan Rsquared = 61.53% yang berarti masih lebih dari batas minimum yang menjadi tujuan kita.
+    
+## Linear Regression Model 2 {.tabset}
+Model LM kedua ini akan dibuat dengan tidak menggunakan variabel `fine_agg` sebagai variabel prediktor.
+```{r}
+modellm2 <- lm(strength~cement+slag+flyash+water+super_plast+coarse_agg+age, conc_train)
+```
+    Model dibuat seperti diatas karena seluruh variabel selain strength pada data concrete memiliki korelasi terhadap strength.
+
+### Stepwise Regression : Backward
+```{r}
+step(modellm2, direction = "backward")
+```
+  Dari hasil diatas, dapat dilihat bahwa model dengan AIC terkecil adalah model yang tidak menggunakan variabel `coarse_agg`, sehingga akan dibuat model baru dengan tidak menggunakan variabel tersebut.
+  
+## Linear Regression Model 3 {.tabset}
+Model LM kedua ini akan dibuat dengan tidak menggunakan variabel `fine_agg` dan `coarse_agg` sebagai variabel prediktor.
+```{r}
+modellm3 <- lm(strength~cement+slag+flyash+water+super_plast+age, conc_train)
+```
+    Model dibuat seperti diatas karena seluruh variabel selain strength pada data concrete memiliki korelasi terhadap strength.
+
+### Stepwise Regression : Backward
+```{r}
+step(modellm3, direction = "backward")
+```
+  Dari hasil diatas, dapat dilihat bahwa model diatas sudah merupakan model terbaik karena memiliki AIC terkecil.
+  
+### Cek Outlier
+```{r}
+plot(modellm3)
+```
+    Dari gambar plot ke-4, yaitu Residuals vs Leverage plot, terlihat tidak ada observasi yang berada di luar garis Cook's distance menandakan tidak ada observasi yang high influence.
+
+### Cek summary
+```{r}
+summary(modellm3)
+```
+    Dari hasil summary diatas, dapat dilihat bahwa R-squared masih bernilai 61.4% yang berarti belum mencapai tujuan kita.
+  
+### Evaluasi Model
+```{r}
+predlm3 <- predict(modellm3, conc_test)
+accuracy(predlm3, conc_test$strength)
+rsq(modellm3, adj = T, data = conc_test$strength)
+```
+    Dari hasil evaluasi diatas, nilai MAE = 8.88 dan Rsquared = 61.42% yang berarti masih tidak sesuai dengan batas yang menjadi tujuan kita.
+
+## Decision Tree
+### Model Awal
+Model ini akan menggunakan metode decision tree dengan seluruh variabel prediktor terpakai
+```{r}
+model.dt <- ctree(formula = strength~., conc_train)
+plot(model.dt, type = "simple")
+```
+Setelah model dibuat, kita akan mengetes hasil predict model kita terhadap data test.
+```{r}
+pred.dt <- predict(model.dt, conc_test)
+accuracy(pred.dt, conc_test$strength)
+Rsquared.dt <- 1 - (sum((conc_test$strength-pred.dt)^2)/sum((conc_test$strength-mean(conc_test$strength))^2))
+Rsquared.dt
+```
+Dari hasil evaluasi diatas, nilai MAE = 5.62 dan Rsquared = 80.72% yang berarti nilai masih belum sesuai dengan batasan yang kita inginkan.
+
+### Tuning Model
+Pada bagian ini, model yang akan digunakan masih sama seperti pada Model Awal, tetapi diatur mincriterionnya sebesar 0.01.
+```{r}
+model.dt2 <- ctree(formula = strength~., conc_train, control = ctree_control(mincriterion = 0.01))
+plot(model.dt2, type = "simple")
+```
+Setelah model dibuat, kita akan mengetes hasil predict model kita terhadap data test.
+```{r}
+pred.dt2 <- predict(model.dt2, conc_test)
+accuracy(pred.dt2, conc_test$strength)
+Rsquared.dt2 <- 1 - (sum((conc_test$strength-pred.dt2)^2)/sum((conc_test$strength-mean(conc_test$strength))^2))
+Rsquared.dt2
+```
+Dari hasil evaluasi diatas, nilai MAE = 5.68 dan Rsquared = 79.06% yang berarti nilai masih belum sesuai dengan batasan yang diinginkan.
+
+## Random Forest
+Pada Model Random Forest, akan dibuat beberapa alternatif model dengan variasi k-fold number dan repeats yang berbeda-beda. Nilai variasinya dapat dilihat pada model-model yang telah dibuat di bawah ini.
+```{r}
+set.seed(32)
+control53 <- trainControl(method = "repeatedcv", number = 5, repeats = 3)
+control55 <- trainControl(method = "repeatedcv", number = 5, repeats = 5)
+control75 <- trainControl(method = "repeatedcv", number = 7, repeats = 5)
+control95 <- trainControl(method = "repeatedcv", number = 9, repeats = 5)
+
+train53 <- train(strength ~ ., data = conc_train, method = "rf", trControl = control53)
+train55 <- train(strength ~ ., data = conc_train, method = "rf", trControl = control55)
+train75 <- train(strength ~ ., data = conc_train, method = "rf", trControl = control75)
+train95 <- train(strength ~ ., data = conc_train, method = "rf", trControl = control95)
+
+train53
+train55
+train75
+train95
+```
+Dari hasil diatas, dapat dilihat beberapa model dengan mtry yang berbeda sudah memiliki Rsquared > 90% yang berarti sudah melebihi tujuan kita. Kemudian, setelah dibandingkan dari keempat model yang ada, model dengan number = 9 dan repeat = 5 adalah yang terbaik karena memiliki R-squared tertinggi yaitu 90.58% dan MAE = 3.7 (untuk mtry = 5).
+
+Pada tahap berikutnya, kita akan memprediksi nilai strength pada data conc_test untuk mengetes model Random Forest kita pada data yang lain. Kemudian, dicek pula hasil error (MAE) yang didapat apakah sudah sesuai dengan tujuan model kita atau belum.
+
+```{r}
+prediction53 <- predict(train53, conc_test)
+prediction55 <- predict(train55, conc_test)
+prediction75 <- predict(train75, conc_test)
+prediction95 <- predict(train95, conc_test)
+
+accuracy(prediction53, conc_test$strength)
+accuracy(prediction55, conc_test$strength)
+accuracy(prediction75, conc_test$strength)
+accuracy(prediction95, conc_test$strength)
+
+Rsquared53 <- 1 - (sum((conc_test$strength-prediction53)^2)/sum((conc_test$strength-mean(conc_test$strength))^2))
+Rsquared55 <- 1 - (sum((conc_test$strength-prediction55)^2)/sum((conc_test$strength-mean(conc_test$strength))^2))
+Rsquared75 <- 1 - (sum((conc_test$strength-prediction75)^2)/sum((conc_test$strength-mean(conc_test$strength))^2))
+Rsquared95 <- 1 - (sum((conc_test$strength-prediction95)^2)/sum((conc_test$strength-mean(conc_test$strength))^2))
+
+Rsquared53
+Rsquared55
+Rsquared75
+Rsquared95
+```
+Dari hasil diatas, dapat dilihat bahwa model keempat (number = 9 dan repeat = 5) didapat MAE = 3.15 dan Rsquared = 93.4% yang berarti sudah sesuai dengan tujuan model kita dan merupakan model dengan MAE yang terbaik. Oleh karena itu, kita akan menggunakan model Random Forest ini menjadi model akhir kita dalam mengisi file data_submission.
+
+# Filling Submission Data
+Dari model-model yang telah dibuat diatas, didapat model terbaik yaitu model Random Forest dengan number = 9 dan repeat = 5. Model tersebut telah mencapai Rsquared > 90% dan MAE < 4, sesuai dengan target yang ingin dicapai.
+Oleh karena itu, langkah selanjutnya adalah mengisi nilai strength pada data_submission dan akan dievaluasi pada website yang disediakan Algoritma.
+```{r}
+pred_final <- predict(train95, data_submission)
+data_submission$strength <- pred_final
+write.csv(data_submission, file = "Donigo_concrete-rm-predict.csv", row.names = F)
+```

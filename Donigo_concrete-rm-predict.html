@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Donigo_concrete-rm-predict.utf8</title>
+
+<script src="Donigo_concrete-rm-predict_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="Donigo_concrete-rm-predict_files/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
+<script src="Donigo_concrete-rm-predict_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="Donigo_concrete-rm-predict_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="Donigo_concrete-rm-predict_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="Donigo_concrete-rm-predict_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="Donigo_concrete-rm-predict_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="Donigo_concrete-rm-predict_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="Donigo_concrete-rm-predict_files/navigation-1.1/tabsets.js"></script>
+<script src="Donigo_concrete-rm-predict_files/navigation-1.1/codefolding.js"></script>
+<link href="Donigo_concrete-rm-predict_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="Donigo_concrete-rm-predict_files/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore"><center>
+Capstone Machine Learning : Concrete Predict Case
+</center></h1>
+<h4 class="author"><center>
+Donigo Fernando Sinaga
+</center></h4>
+<h4 class="date"><center>
+September 16, 2019
+</center></h4>
+
+</div>
+
+
+<div id="sinopsis" class="section level1">
+<h1><span class="header-section-number">1</span> Sinopsis</h1>
+<p>Laporan analisis ini dibuat untuk Capstone Machine Learning. Pada laporan ini, akan dibuat model random forest dengan beberapa prediktor dan akan dicek apakah model sudah bagus atau tidak. Syarat untuk model tersebut adalah <code>Rsquared &gt; 90%</code> dan <code>MAE &lt; 4</code>.</p>
+<p>: Showing or hiding code chunks can be done by choosing options on dropdown menu beside of this report’s title or on each code chunk.</p>
+<hr />
+<p><br><br></p>
+</div>
+<div id="preparation" class="section level1">
+<h1><span class="header-section-number">2</span> Preparation</h1>
+<div id="library-setup" class="section level2 tabset">
+<h2><span class="header-section-number">2.1</span> Library Setup</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(GGally)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(caret)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(randomForest)</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">library</span>(forecast)</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="kw">library</span>(partykit)</a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="kw">library</span>(rsq)</a></code></pre></div>
+</div>
+<div id="read-data" class="section level2 tabset">
+<h2><span class="header-section-number">2.2</span> Read Data</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># import dataset</span></a>
+<a class="sourceLine" id="cb2-2" title="2">data_train &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;concrete-rm-predict/data/data-train.csv&quot;</span>)</a></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   cement = col_double(),
+##   slag = col_double(),
+##   flyash = col_double(),
+##   water = col_double(),
+##   super_plast = col_double(),
+##   coarse_agg = col_double(),
+##   fine_agg = col_double(),
+##   age = col_double(),
+##   strength = col_double()
+## )</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># quick check</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="kw">head</span>(data_train, <span class="dv">10</span>)</a></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["cement"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["slag"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["flyash"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["water"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["super_plast"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["coarse_agg"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["fine_agg"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["age"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["strength"],"name":[9],"type":["dbl"],"align":["right"]}],"data":[{"1":"540.0","2":"0.0","3":"0","4":"162","5":"2.5","6":"1040.0","7":"676.0","8":"28","9":"79.99"},{"1":"540.0","2":"0.0","3":"0","4":"162","5":"2.5","6":"1055.0","7":"676.0","8":"28","9":"61.89"},{"1":"332.5","2":"142.5","3":"0","4":"228","5":"0.0","6":"932.0","7":"594.0","8":"270","9":"40.27"},{"1":"332.5","2":"142.5","3":"0","4":"228","5":"0.0","6":"932.0","7":"594.0","8":"365","9":"41.05"},{"1":"198.6","2":"132.4","3":"0","4":"192","5":"0.0","6":"978.4","7":"825.5","8":"360","9":"44.30"},{"1":"380.0","2":"95.0","3":"0","4":"228","5":"0.0","6":"932.0","7":"594.0","8":"365","9":"43.70"},{"1":"380.0","2":"95.0","3":"0","4":"228","5":"0.0","6":"932.0","7":"594.0","8":"28","9":"36.45"},{"1":"475.0","2":"0.0","3":"0","4":"228","5":"0.0","6":"932.0","7":"594.0","8":"28","9":"39.29"},{"1":"198.6","2":"132.4","3":"0","4":"192","5":"0.0","6":"978.4","7":"825.5","8":"90","9":"38.07"},{"1":"198.6","2":"132.4","3":"0","4":"192","5":"0.0","6":"978.4","7":"825.5","8":"28","9":"28.02"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># import dataset</span></a>
+<a class="sourceLine" id="cb5-2" title="2">data_submission &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;concrete-rm-predict/data/data-submission.csv&quot;</span>)</a></code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   cement = col_double(),
+##   slag = col_double(),
+##   flyash = col_double(),
+##   water = col_double(),
+##   super_plast = col_double(),
+##   coarse_agg = col_double(),
+##   fine_agg = col_double(),
+##   age = col_double(),
+##   strength = col_logical()
+## )</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># quick check</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="kw">head</span>(data_submission, <span class="dv">10</span>)</a></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["cement"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["slag"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["flyash"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["water"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["super_plast"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["coarse_agg"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["fine_agg"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["age"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["strength"],"name":[9],"type":["lgl"],"align":["right"]}],"data":[{"1":"266.0","2":"114.0","3":"0","4":"228","5":"0","6":"932.0","7":"670.0","8":"90","9":"NA"},{"1":"266.0","2":"114.0","3":"0","4":"228","5":"0","6":"932.0","7":"670.0","8":"28","9":"NA"},{"1":"427.5","2":"47.5","3":"0","4":"228","5":"0","6":"932.0","7":"594.0","8":"270","9":"NA"},{"1":"190.0","2":"190.0","3":"0","4":"228","5":"0","6":"932.0","7":"670.0","8":"90","9":"NA"},{"1":"380.0","2":"0.0","3":"0","4":"228","5":"0","6":"932.0","7":"670.0","8":"270","9":"NA"},{"1":"427.5","2":"47.5","3":"0","4":"228","5":"0","6":"932.0","7":"594.0","8":"28","9":"NA"},{"1":"198.6","2":"132.4","3":"0","4":"192","5":"0","6":"978.4","7":"825.5","8":"180","9":"NA"},{"1":"332.5","2":"142.5","3":"0","4":"228","5":"0","6":"932.0","7":"594.0","8":"90","9":"NA"},{"1":"237.5","2":"237.5","3":"0","4":"228","5":"0","6":"932.0","7":"594.0","8":"180","9":"NA"},{"1":"427.5","2":"47.5","3":"0","4":"228","5":"0","6":"932.0","7":"594.0","8":"365","9":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="check-na" class="section level2 tabset">
+<h2><span class="header-section-number">2.3</span> Check NA</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">colSums</span>(<span class="kw">is.na</span>(data_train))</a></code></pre></div>
+<pre><code>##      cement        slag      flyash       water super_plast  coarse_agg 
+##           0           0           0           0           0           0 
+##    fine_agg         age    strength 
+##           0           0           0</code></pre>
+</div>
+<div id="cross-validation" class="section level2 tabset">
+<h2><span class="header-section-number">2.4</span> Cross Validation</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">set.seed</span>(<span class="dv">80</span>)</a>
+<a class="sourceLine" id="cb10-2" title="2">index &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">nrow</span>(data_train), <span class="fl">0.95</span><span class="op">*</span><span class="kw">nrow</span>(data_train))</a>
+<a class="sourceLine" id="cb10-3" title="3"></a>
+<a class="sourceLine" id="cb10-4" title="4">conc_train &lt;-<span class="st"> </span>data_train[index,]</a>
+<a class="sourceLine" id="cb10-5" title="5">conc_test &lt;-<span class="st"> </span>data_train[<span class="op">-</span>index,]</a></code></pre></div>
+</div>
+</div>
+<div id="pembuatan-model" class="section level1">
+<h1><span class="header-section-number">3</span> Pembuatan Model</h1>
+<div id="linear-regression-model-1" class="section level2 tabset">
+<h2><span class="header-section-number">3.1</span> Linear Regression Model 1</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">modellm1 &lt;-<span class="st"> </span><span class="kw">lm</span>(strength<span class="op">~</span>., conc_train)</a></code></pre></div>
+<pre><code>Model dibuat seperti diatas karena seluruh variabel selain strength pada data concrete memiliki korelasi terhadap strength.</code></pre>
+<div id="stepwise-regression-backward" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Stepwise Regression : Backward</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">step</span>(modellm1, <span class="dt">direction =</span> <span class="st">&quot;backward&quot;</span>)</a></code></pre></div>
+<pre><code>## Start:  AIC=3674.96
+## strength ~ cement + slag + flyash + water + super_plast + coarse_agg + 
+##     fine_agg + age
+## 
+##               Df Sum of Sq    RSS    AIC
+## &lt;none&gt;                      83582 3675.0
+## - fine_agg     1       259  83840 3675.4
+## - coarse_agg   1       453  84035 3677.2
+## - super_plast  1       994  84575 3682.2
+## - water        1      1053  84634 3682.8
+## - flyash       1      4076  87658 3710.2
+## - slag         1      8661  92243 3750.2
+## - cement       1     16811 100392 3816.5
+## - age          1     40102 123683 3979.8</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = strength ~ cement + slag + flyash + water + super_plast + 
+##     coarse_agg + fine_agg + age, data = conc_train)
+## 
+## Coefficients:
+## (Intercept)       cement         slag       flyash        water  
+##   -27.40733      0.11981      0.10108      0.08755     -0.14022  
+## super_plast   coarse_agg     fine_agg          age  
+##     0.32542      0.02159      0.01847      0.12196</code></pre>
+<p>Dari hasil diatas, dapat dilihat bahwa model diatas sudah memiliki AIC terkecil, sehingga tidak perlu ada variabel prediktor yang dihilangkan dari model.</p>
+</div>
+<div id="cek-outlier" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Cek Outlier</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">plot</span>(modellm1)</a></code></pre></div>
+<p><img src="Donigo_concrete-rm-predict_files/figure-html/unnamed-chunk-8-1.png" width="672" /><img src="Donigo_concrete-rm-predict_files/figure-html/unnamed-chunk-8-2.png" width="672" /><img src="Donigo_concrete-rm-predict_files/figure-html/unnamed-chunk-8-3.png" width="672" /><img src="Donigo_concrete-rm-predict_files/figure-html/unnamed-chunk-8-4.png" width="672" /></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">boxplot</span>(conc_train)</a></code></pre></div>
+<p><img src="Donigo_concrete-rm-predict_files/figure-html/unnamed-chunk-8-5.png" width="672" /> Dari gambar plot ke-4, yaitu Residuals vs Leverage plot, terlihat tidak ada observasi yang berada di luar garis Cook’s distance menandakan tidak ada observasi yang high influence. Pada boxplot yang dihasilkan, outlier (titik) di setiap kategori juga terlihat tidak terlalu jauh dari boxplotnya dan tidak berjumlah banyak sehingga tidak perlu ada outlier yang harus dihapuskan.</p>
+</div>
+<div id="cek-korelasi" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> Cek Korelasi</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">cor</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>cement)</a></code></pre></div>
+<pre><code>## [1] 0.4982592</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">cor</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>slag)</a></code></pre></div>
+<pre><code>## [1] 0.1245044</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">cor</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>flyash)</a></code></pre></div>
+<pre><code>## [1] -0.1056145</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">cor</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>water)</a></code></pre></div>
+<pre><code>## [1] -0.2859968</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">cor</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>super_plast)</a></code></pre></div>
+<pre><code>## [1] 0.3596102</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">cor</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>coarse_agg)</a></code></pre></div>
+<pre><code>## [1] -0.1276778</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">cor</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>fine_agg)</a></code></pre></div>
+<pre><code>## [1] -0.1903573</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">cor</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>age)</a></code></pre></div>
+<pre><code>## [1] 0.3414086</code></pre>
+<pre><code>Dari hasil diatas, dapat disimpulkan bahwa</code></pre>
+<ol style="list-style-type: decimal">
+<li>Variabel <code>strength</code> memiliki korelasi positif terhadap : <code>cement</code>, <code>slag</code>, <code>super_plast</code>, dan <code>age</code>.</li>
+<li>Variabel <code>strength</code> memiliki korelasi negatif terhadap : <code>flyash</code>, <code>water</code>, <code>coarse_agg</code>, dan <code>fine_agg</code>.</li>
+</ol>
+<p>Hasil plot korelasi juga dapat dilihat dalam bentuk histogram seperti di bawah ini.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">ggcorr</span>(conc_train, <span class="dt">label =</span> T)</a></code></pre></div>
+<p><img src="Donigo_concrete-rm-predict_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Kemudian, akan kita tes apakah korelasi dari seluruh variabel prediktor yang ada terhadap variabel <code>strength</code> signifikan menggunakan metode <code>cor.test</code></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw">cor.test</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>cement)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  conc_train$strength and conc_train$cement
+## t = 16.06, df = 781, p-value &lt; 0.00000000000000022
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.4436850 0.5491515
+## sample estimates:
+##       cor 
+## 0.4982592</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">cor.test</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>slag)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  conc_train$strength and conc_train$slag
+## t = 3.5067, df = 781, p-value = 0.0004795
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.05492054 0.19288487
+## sample estimates:
+##       cor 
+## 0.1245044</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">cor.test</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>flyash)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  conc_train$strength and conc_train$flyash
+## t = -2.9681, df = 781, p-value = 0.003088
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.17438709 -0.03581656
+## sample estimates:
+##        cor 
+## -0.1056145</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">cor.test</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>water)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  conc_train$strength and conc_train$water
+## t = -8.341, df = 781, p-value = 0.000000000000000332
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.3490653 -0.2203491
+## sample estimates:
+##        cor 
+## -0.2859968</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">cor.test</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>super_plast)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  conc_train$strength and conc_train$super_plast
+## t = 10.77, df = 781, p-value &lt; 0.00000000000000022
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.2970310 0.4191135
+## sample estimates:
+##       cor 
+## 0.3596102</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="kw">cor.test</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>coarse_agg)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  conc_train$strength and conc_train$coarse_agg
+## t = -3.5976, df = 781, p-value = 0.0003414
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.19598760 -0.05813488
+## sample estimates:
+##        cor 
+## -0.1276778</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1"><span class="kw">cor.test</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>fine_agg)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  conc_train$strength and conc_train$fine_agg
+## t = -5.4189, df = 781, p-value = 0.00000007995
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.2569927 -0.1219203
+## sample estimates:
+##        cor 
+## -0.1903573</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1"><span class="kw">cor.test</span>(conc_train<span class="op">$</span>strength, conc_train<span class="op">$</span>age)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  conc_train$strength and conc_train$age
+## t = 10.151, df = 781, p-value &lt; 0.00000000000000022
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.2779953 0.4018591
+## sample estimates:
+##       cor 
+## 0.3414086</code></pre>
+<pre><code>Dari hasil correlation test diatas, dapat disimpulkan bahwa semua variabel prediktor memiliki korelasi yang signifikan terhadap variabel `strength` karena hasil cor.test dari setiap variabel prediktor memiliki nilai p-val &lt; 0.05 (alpha yang ditentukan).</code></pre>
+</div>
+<div id="cek-summary" class="section level3">
+<h3><span class="header-section-number">3.1.4</span> Cek summary</h3>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1"><span class="kw">summary</span>(modellm1)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = strength ~ ., data = conc_train)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -29.425  -6.466   0.876   6.996  34.407 
+## 
+## Coefficients:
+##               Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept) -27.407327  29.602096  -0.926              0.35481    
+## cement        0.119806   0.009602  12.477 &lt; 0.0000000000000002 ***
+## slag          0.101083   0.011287   8.956 &lt; 0.0000000000000002 ***
+## flyash        0.087554   0.014252   6.143        0.00000000129 ***
+## water        -0.140216   0.044910  -3.122              0.00186 ** 
+## super_plast   0.325424   0.107281   3.033              0.00250 ** 
+## coarse_agg    0.021591   0.010538   2.049              0.04081 *  
+## fine_agg      0.018471   0.011937   1.547              0.12219    
+## age           0.121964   0.006329  19.271 &lt; 0.0000000000000002 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 10.39 on 774 degrees of freedom
+## Multiple R-squared:  0.6192, Adjusted R-squared:  0.6153 
+## F-statistic: 157.3 on 8 and 774 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<pre><code>Dari hasil summary diatas, dapat dilihat bahwa R-squared masih bernilai 61.5% yang berarti belum mencapai tujuan kita.
+Kemudian, dapat dilihat pula significant codes dari variabel fine_agg sangat rendah, terlebih lagi dari hasil ggcorr pun fine_agg juga memiliki korelasi yang rendah, sehingga untuk kedepannya fine_agg tidak digunakan.</code></pre>
+</div>
+<div id="cek-rmse" class="section level3">
+<h3><span class="header-section-number">3.1.5</span> Cek RMSE</h3>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1"><span class="kw">sqrt</span>(<span class="kw">mean</span>((modellm1<span class="op">$</span>residuals)<span class="op">^</span><span class="dv">2</span>))</a></code></pre></div>
+<pre><code>## [1] 10.33178</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1"><span class="kw">range</span>(conc_train<span class="op">$</span>strength)</a></code></pre></div>
+<pre><code>## [1]  2.33 82.60</code></pre>
+<pre><code>Hasil dari kedua baris diatas menunjukkan besaran Root Mean Square Error dan rentang strength. Dapat dilihat besaran RMSE masih berada di dalam rentang strength. Hal ini sudah dapat dikatakan bahwa model ini baik, ditambah lagi RMSE lebih mendekati ke nilai minimum dari strength.</code></pre>
+</div>
+<div id="evaluasi-model" class="section level3">
+<h3><span class="header-section-number">3.1.6</span> Evaluasi Model</h3>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" title="1">predlm1 &lt;-<span class="st"> </span><span class="kw">predict</span>(modellm1, conc_test)</a>
+<a class="sourceLine" id="cb61-2" title="2"><span class="kw">accuracy</span>(predlm1, conc_test<span class="op">$</span>strength)</a></code></pre></div>
+<pre><code>##                 ME     RMSE      MAE       MPE     MAPE
+## Test set -1.400162 10.77267 8.712074 -22.83669 39.26168</code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" title="1"><span class="kw">rsq</span>(modellm1, <span class="dt">adj =</span> T, <span class="dt">data =</span> conc_test)</a></code></pre></div>
+<pre><code>## [1] 0.6152967</code></pre>
+<pre><code>Dari hasil evaluasi diatas, nilai MAE bernilai 8.71 dan Rsquared = 61.53% yang berarti masih lebih dari batas minimum yang menjadi tujuan kita.</code></pre>
+</div>
+</div>
+<div id="linear-regression-model-2" class="section level2 tabset">
+<h2><span class="header-section-number">3.2</span> Linear Regression Model 2</h2>
+<p>Model LM kedua ini akan dibuat dengan tidak menggunakan variabel <code>fine_agg</code> sebagai variabel prediktor.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" title="1">modellm2 &lt;-<span class="st"> </span><span class="kw">lm</span>(strength<span class="op">~</span>cement<span class="op">+</span>slag<span class="op">+</span>flyash<span class="op">+</span>water<span class="op">+</span>super_plast<span class="op">+</span>coarse_agg<span class="op">+</span>age, conc_train)</a></code></pre></div>
+<pre><code>Model dibuat seperti diatas karena seluruh variabel selain strength pada data concrete memiliki korelasi terhadap strength.</code></pre>
+<div id="stepwise-regression-backward-1" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Stepwise Regression : Backward</h3>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" title="1"><span class="kw">step</span>(modellm2, <span class="dt">direction =</span> <span class="st">&quot;backward&quot;</span>)</a></code></pre></div>
+<pre><code>## Start:  AIC=3675.38
+## strength ~ cement + slag + flyash + water + super_plast + coarse_agg + 
+##     age
+## 
+##               Df Sum of Sq    RSS    AIC
+## - coarse_agg   1       200  84040 3675.2
+## &lt;none&gt;                      83840 3675.4
+## - super_plast  1       882  84722 3681.6
+## - water        1      5440  89281 3722.6
+## - flyash       1      6796  90637 3734.4
+## - slag         1     23399 107240 3866.1
+## - age          1     39856 123696 3977.9
+## - cement       1     50703 134543 4043.7
+## 
+## Step:  AIC=3675.25
+## strength ~ cement + slag + flyash + water + super_plast + age
+## 
+##               Df Sum of Sq    RSS    AIC
+## &lt;none&gt;                      84040 3675.2
+## - super_plast  1       684  84725 3679.6
+## - flyash       1      6648  90688 3732.9
+## - water        1      8367  92407 3747.6
+## - slag         1     23755 107796 3868.2
+## - age          1     40212 124253 3979.4
+## - cement       1     51350 135390 4046.6</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = strength ~ cement + slag + flyash + water + super_plast + 
+##     age, data = conc_train)
+## 
+## Coefficients:
+## (Intercept)       cement         slag       flyash        water  
+##    27.79131      0.10579      0.08422      0.06926     -0.21295  
+## super_plast          age  
+##     0.24256      0.12176</code></pre>
+<p>Dari hasil diatas, dapat dilihat bahwa model dengan AIC terkecil adalah model yang tidak menggunakan variabel <code>coarse_agg</code>, sehingga akan dibuat model baru dengan tidak menggunakan variabel tersebut.</p>
+</div>
+</div>
+<div id="linear-regression-model-3" class="section level2 tabset">
+<h2><span class="header-section-number">3.3</span> Linear Regression Model 3</h2>
+<p>Model LM kedua ini akan dibuat dengan tidak menggunakan variabel <code>fine_agg</code> dan <code>coarse_agg</code> sebagai variabel prediktor.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1">modellm3 &lt;-<span class="st"> </span><span class="kw">lm</span>(strength<span class="op">~</span>cement<span class="op">+</span>slag<span class="op">+</span>flyash<span class="op">+</span>water<span class="op">+</span>super_plast<span class="op">+</span>age, conc_train)</a></code></pre></div>
+<pre><code>Model dibuat seperti diatas karena seluruh variabel selain strength pada data concrete memiliki korelasi terhadap strength.</code></pre>
+<div id="stepwise-regression-backward-2" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Stepwise Regression : Backward</h3>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1"><span class="kw">step</span>(modellm3, <span class="dt">direction =</span> <span class="st">&quot;backward&quot;</span>)</a></code></pre></div>
+<pre><code>## Start:  AIC=3675.25
+## strength ~ cement + slag + flyash + water + super_plast + age
+## 
+##               Df Sum of Sq    RSS    AIC
+## &lt;none&gt;                      84040 3675.2
+## - super_plast  1       684  84725 3679.6
+## - flyash       1      6648  90688 3732.9
+## - water        1      8367  92407 3747.6
+## - slag         1     23755 107796 3868.2
+## - age          1     40212 124253 3979.4
+## - cement       1     51350 135390 4046.6</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = strength ~ cement + slag + flyash + water + super_plast + 
+##     age, data = conc_train)
+## 
+## Coefficients:
+## (Intercept)       cement         slag       flyash        water  
+##    27.79131      0.10579      0.08422      0.06926     -0.21295  
+## super_plast          age  
+##     0.24256      0.12176</code></pre>
+<p>Dari hasil diatas, dapat dilihat bahwa model diatas sudah merupakan model terbaik karena memiliki AIC terkecil.</p>
+</div>
+<div id="cek-outlier-1" class="section level3">
+<h3><span class="header-section-number">3.3.2</span> Cek Outlier</h3>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1"><span class="kw">plot</span>(modellm3)</a></code></pre></div>
+<p><img src="Donigo_concrete-rm-predict_files/figure-html/unnamed-chunk-19-1.png" width="672" /><img src="Donigo_concrete-rm-predict_files/figure-html/unnamed-chunk-19-2.png" width="672" /><img src="Donigo_concrete-rm-predict_files/figure-html/unnamed-chunk-19-3.png" width="672" /><img src="Donigo_concrete-rm-predict_files/figure-html/unnamed-chunk-19-4.png" width="672" /> Dari gambar plot ke-4, yaitu Residuals vs Leverage plot, terlihat tidak ada observasi yang berada di luar garis Cook’s distance menandakan tidak ada observasi yang high influence.</p>
+</div>
+<div id="cek-summary-1" class="section level3">
+<h3><span class="header-section-number">3.3.3</span> Cek summary</h3>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" title="1"><span class="kw">summary</span>(modellm3)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = strength ~ cement + slag + flyash + water + super_plast + 
+##     age, data = conc_train)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -29.807  -6.772   0.770   7.054  35.134 
+## 
+## Coefficients:
+##              Estimate Std. Error t value             Pr(&gt;|t|)    
+## (Intercept) 27.791308   4.835260   5.748   0.0000000130042511 ***
+## cement       0.105790   0.004858  21.775 &lt; 0.0000000000000002 ***
+## slag         0.084221   0.005687  14.810 &lt; 0.0000000000000002 ***
+## flyash       0.069259   0.008840   7.835   0.0000000000000155 ***
+## water       -0.212948   0.024228  -8.789 &lt; 0.0000000000000002 ***
+## super_plast  0.242556   0.096488   2.514               0.0121 *  
+## age          0.121757   0.006319  19.269 &lt; 0.0000000000000002 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 10.41 on 776 degrees of freedom
+## Multiple R-squared:  0.6171, Adjusted R-squared:  0.6142 
+## F-statistic: 208.5 on 6 and 776 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+<pre><code>Dari hasil summary diatas, dapat dilihat bahwa R-squared masih bernilai 61.4% yang berarti belum mencapai tujuan kita.</code></pre>
+</div>
+<div id="evaluasi-model-1" class="section level3">
+<h3><span class="header-section-number">3.3.4</span> Evaluasi Model</h3>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" title="1">predlm3 &lt;-<span class="st"> </span><span class="kw">predict</span>(modellm3, conc_test)</a>
+<a class="sourceLine" id="cb80-2" title="2"><span class="kw">accuracy</span>(predlm3, conc_test<span class="op">$</span>strength)</a></code></pre></div>
+<pre><code>##                 ME     RMSE      MAE      MPE     MAPE
+## Test set -1.518098 10.82043 8.884316 -23.4104 40.14938</code></pre>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" title="1"><span class="kw">rsq</span>(modellm3, <span class="dt">adj =</span> T, <span class="dt">data =</span> conc_test<span class="op">$</span>strength)</a></code></pre></div>
+<pre><code>## [1] 0.6141826</code></pre>
+<pre><code>Dari hasil evaluasi diatas, nilai MAE = 8.88 dan Rsquared = 61.42% yang berarti masih tidak sesuai dengan batas yang menjadi tujuan kita.</code></pre>
+</div>
+</div>
+<div id="decision-tree" class="section level2">
+<h2><span class="header-section-number">3.4</span> Decision Tree</h2>
+<div id="model-awal" class="section level3">
+<h3><span class="header-section-number">3.4.1</span> Model Awal</h3>
+<p>Model ini akan menggunakan metode decision tree dengan seluruh variabel prediktor terpakai</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" title="1">model.dt &lt;-<span class="st"> </span><span class="kw">ctree</span>(<span class="dt">formula =</span> strength<span class="op">~</span>., conc_train)</a>
+<a class="sourceLine" id="cb85-2" title="2"><span class="kw">plot</span>(model.dt, <span class="dt">type =</span> <span class="st">&quot;simple&quot;</span>)</a></code></pre></div>
+<p><img src="Donigo_concrete-rm-predict_files/figure-html/unnamed-chunk-22-1.png" width="672" /> Setelah model dibuat, kita akan mengetes hasil predict model kita terhadap data test.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" title="1">pred.dt &lt;-<span class="st"> </span><span class="kw">predict</span>(model.dt, conc_test)</a>
+<a class="sourceLine" id="cb86-2" title="2"><span class="kw">accuracy</span>(pred.dt, conc_test<span class="op">$</span>strength)</a></code></pre></div>
+<pre><code>##                  ME     RMSE      MAE       MPE     MAPE
+## Test set -0.3045636 6.943294 5.621739 -11.07426 23.62478</code></pre>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" title="1">Rsquared.dt &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="kw">sum</span>((conc_test<span class="op">$</span>strength<span class="op">-</span>pred.dt)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="kw">sum</span>((conc_test<span class="op">$</span>strength<span class="op">-</span><span class="kw">mean</span>(conc_test<span class="op">$</span>strength))<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb88-2" title="2">Rsquared.dt</a></code></pre></div>
+<pre><code>## [1] 0.8072018</code></pre>
+<p>Dari hasil evaluasi diatas, nilai MAE = 5.62 dan Rsquared = 80.72% yang berarti nilai masih belum sesuai dengan batasan yang kita inginkan.</p>
+</div>
+<div id="tuning-model" class="section level3">
+<h3><span class="header-section-number">3.4.2</span> Tuning Model</h3>
+<p>Pada bagian ini, model yang akan digunakan masih sama seperti pada Model Awal, tetapi diatur mincriterionnya sebesar 0.01.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" title="1">model.dt2 &lt;-<span class="st"> </span><span class="kw">ctree</span>(<span class="dt">formula =</span> strength<span class="op">~</span>., conc_train, <span class="dt">control =</span> <span class="kw">ctree_control</span>(<span class="dt">mincriterion =</span> <span class="fl">0.01</span>))</a>
+<a class="sourceLine" id="cb90-2" title="2"><span class="kw">plot</span>(model.dt2, <span class="dt">type =</span> <span class="st">&quot;simple&quot;</span>)</a></code></pre></div>
+<p><img src="Donigo_concrete-rm-predict_files/figure-html/unnamed-chunk-24-1.png" width="672" /> Setelah model dibuat, kita akan mengetes hasil predict model kita terhadap data test.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" title="1">pred.dt2 &lt;-<span class="st"> </span><span class="kw">predict</span>(model.dt2, conc_test)</a>
+<a class="sourceLine" id="cb91-2" title="2"><span class="kw">accuracy</span>(pred.dt2, conc_test<span class="op">$</span>strength)</a></code></pre></div>
+<pre><code>##                  ME     RMSE      MAE       MPE     MAPE
+## Test set -0.7653416 7.235705 5.684584 -11.73114 23.49708</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" title="1">Rsquared.dt2 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="kw">sum</span>((conc_test<span class="op">$</span>strength<span class="op">-</span>pred.dt2)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="kw">sum</span>((conc_test<span class="op">$</span>strength<span class="op">-</span><span class="kw">mean</span>(conc_test<span class="op">$</span>strength))<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb93-2" title="2">Rsquared.dt2</a></code></pre></div>
+<pre><code>## [1] 0.7906208</code></pre>
+<p>Dari hasil evaluasi diatas, nilai MAE = 5.68 dan Rsquared = 79.06% yang berarti nilai masih belum sesuai dengan batasan yang diinginkan.</p>
+</div>
+</div>
+<div id="random-forest" class="section level2">
+<h2><span class="header-section-number">3.5</span> Random Forest</h2>
+<p>Pada Model Random Forest, akan dibuat beberapa alternatif model dengan variasi k-fold number dan repeats yang berbeda-beda. Nilai variasinya dapat dilihat pada model-model yang telah dibuat di bawah ini.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" title="1"><span class="kw">set.seed</span>(<span class="dv">32</span>)</a>
+<a class="sourceLine" id="cb95-2" title="2">control53 &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">number =</span> <span class="dv">5</span>, <span class="dt">repeats =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb95-3" title="3">control55 &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">number =</span> <span class="dv">5</span>, <span class="dt">repeats =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb95-4" title="4">control75 &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">number =</span> <span class="dv">7</span>, <span class="dt">repeats =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb95-5" title="5">control95 &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="dt">number =</span> <span class="dv">9</span>, <span class="dt">repeats =</span> <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb95-6" title="6"></a>
+<a class="sourceLine" id="cb95-7" title="7">train53 &lt;-<span class="st"> </span><span class="kw">train</span>(strength <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> conc_train, <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>, <span class="dt">trControl =</span> control53)</a>
+<a class="sourceLine" id="cb95-8" title="8">train55 &lt;-<span class="st"> </span><span class="kw">train</span>(strength <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> conc_train, <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>, <span class="dt">trControl =</span> control55)</a>
+<a class="sourceLine" id="cb95-9" title="9">train75 &lt;-<span class="st"> </span><span class="kw">train</span>(strength <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> conc_train, <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>, <span class="dt">trControl =</span> control75)</a>
+<a class="sourceLine" id="cb95-10" title="10">train95 &lt;-<span class="st"> </span><span class="kw">train</span>(strength <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> conc_train, <span class="dt">method =</span> <span class="st">&quot;rf&quot;</span>, <span class="dt">trControl =</span> control95)</a>
+<a class="sourceLine" id="cb95-11" title="11"></a>
+<a class="sourceLine" id="cb95-12" title="12">train53</a></code></pre></div>
+<pre><code>## Random Forest 
+## 
+## 783 samples
+##   8 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold, repeated 3 times) 
+## Summary of sample sizes: 625, 626, 627, 627, 627, 627, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  RMSE      Rsquared   MAE     
+##   2     5.993351  0.8920762  4.485460
+##   5     5.439831  0.8991781  3.870178
+##   8     5.477632  0.8962492  3.854576
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final value used for the model was mtry = 5.</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" title="1">train55</a></code></pre></div>
+<pre><code>## Random Forest 
+## 
+## 783 samples
+##   8 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold, repeated 5 times) 
+## Summary of sample sizes: 627, 627, 624, 627, 627, 626, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  RMSE      Rsquared   MAE     
+##   2     5.964342  0.8939184  4.438582
+##   5     5.334449  0.9027538  3.806828
+##   8     5.385230  0.8985693  3.787919
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final value used for the model was mtry = 5.</code></pre>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" title="1">train75</a></code></pre></div>
+<pre><code>## Random Forest 
+## 
+## 783 samples
+##   8 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (7 fold, repeated 5 times) 
+## Summary of sample sizes: 672, 671, 671, 671, 671, 671, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  RMSE      Rsquared   MAE     
+##   2     5.841156  0.8968088  4.354136
+##   5     5.274845  0.9037439  3.764448
+##   8     5.302173  0.9011404  3.740928
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final value used for the model was mtry = 5.</code></pre>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" title="1">train95</a></code></pre></div>
+<pre><code>## Random Forest 
+## 
+## 783 samples
+##   8 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (9 fold, repeated 5 times) 
+## Summary of sample sizes: 698, 695, 695, 696, 696, 695, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  RMSE      Rsquared   MAE     
+##   2     5.788616  0.8983822  4.281563
+##   5     5.205348  0.9057699  3.698677
+##   8     5.234230  0.9030310  3.670133
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final value used for the model was mtry = 5.</code></pre>
+<p>Dari hasil diatas, dapat dilihat beberapa model dengan mtry yang berbeda sudah memiliki Rsquared &gt; 90% yang berarti sudah melebihi tujuan kita. Kemudian, setelah dibandingkan dari keempat model yang ada, model dengan number = 9 dan repeat = 5 adalah yang terbaik karena memiliki R-squared tertinggi yaitu 90.58% dan MAE = 3.7 (untuk mtry = 5).</p>
+<p>Pada tahap berikutnya, kita akan memprediksi nilai strength pada data conc_test untuk mengetes model Random Forest kita pada data yang lain. Kemudian, dicek pula hasil error (MAE) yang didapat apakah sudah sesuai dengan tujuan model kita atau belum.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" title="1">prediction53 &lt;-<span class="st"> </span><span class="kw">predict</span>(train53, conc_test)</a>
+<a class="sourceLine" id="cb103-2" title="2">prediction55 &lt;-<span class="st"> </span><span class="kw">predict</span>(train55, conc_test)</a>
+<a class="sourceLine" id="cb103-3" title="3">prediction75 &lt;-<span class="st"> </span><span class="kw">predict</span>(train75, conc_test)</a>
+<a class="sourceLine" id="cb103-4" title="4">prediction95 &lt;-<span class="st"> </span><span class="kw">predict</span>(train95, conc_test)</a>
+<a class="sourceLine" id="cb103-5" title="5"></a>
+<a class="sourceLine" id="cb103-6" title="6"><span class="kw">accuracy</span>(prediction53, conc_test<span class="op">$</span>strength)</a></code></pre></div>
+<pre><code>##                  ME     RMSE      MAE       MPE     MAPE
+## Test set -0.6351437 4.048661 3.095988 -8.035408 13.71559</code></pre>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" title="1"><span class="kw">accuracy</span>(prediction55, conc_test<span class="op">$</span>strength)</a></code></pre></div>
+<pre><code>##                  ME     RMSE      MAE       MPE     MAPE
+## Test set -0.6012154 4.140097 3.196058 -8.106387 14.07621</code></pre>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" title="1"><span class="kw">accuracy</span>(prediction75, conc_test<span class="op">$</span>strength)</a></code></pre></div>
+<pre><code>##                  ME     RMSE      MAE       MPE     MAPE
+## Test set -0.6455921 4.153919 3.223261 -8.205901 14.11115</code></pre>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" title="1"><span class="kw">accuracy</span>(prediction95, conc_test<span class="op">$</span>strength)</a></code></pre></div>
+<pre><code>##                  ME     RMSE      MAE       MPE     MAPE
+## Test set -0.5649725 4.063357 3.141449 -7.716089 13.64134</code></pre>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" title="1">Rsquared53 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="kw">sum</span>((conc_test<span class="op">$</span>strength<span class="op">-</span>prediction53)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="kw">sum</span>((conc_test<span class="op">$</span>strength<span class="op">-</span><span class="kw">mean</span>(conc_test<span class="op">$</span>strength))<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb111-2" title="2">Rsquared55 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="kw">sum</span>((conc_test<span class="op">$</span>strength<span class="op">-</span>prediction55)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="kw">sum</span>((conc_test<span class="op">$</span>strength<span class="op">-</span><span class="kw">mean</span>(conc_test<span class="op">$</span>strength))<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb111-3" title="3">Rsquared75 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="kw">sum</span>((conc_test<span class="op">$</span>strength<span class="op">-</span>prediction75)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="kw">sum</span>((conc_test<span class="op">$</span>strength<span class="op">-</span><span class="kw">mean</span>(conc_test<span class="op">$</span>strength))<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb111-4" title="4">Rsquared95 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="kw">sum</span>((conc_test<span class="op">$</span>strength<span class="op">-</span>prediction95)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="kw">sum</span>((conc_test<span class="op">$</span>strength<span class="op">-</span><span class="kw">mean</span>(conc_test<span class="op">$</span>strength))<span class="op">^</span><span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb111-5" title="5"></a>
+<a class="sourceLine" id="cb111-6" title="6">Rsquared53</a></code></pre></div>
+<pre><code>## [1] 0.9344467</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" title="1">Rsquared55</a></code></pre></div>
+<pre><code>## [1] 0.9314523</code></pre>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" title="1">Rsquared75</a></code></pre></div>
+<pre><code>## [1] 0.9309938</code></pre>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" title="1">Rsquared95</a></code></pre></div>
+<pre><code>## [1] 0.9339699</code></pre>
+<p>Dari hasil diatas, dapat dilihat bahwa model keempat (number = 9 dan repeat = 5) didapat MAE = 3.15 dan Rsquared = 93.4% yang berarti sudah sesuai dengan tujuan model kita dan merupakan model dengan MAE yang terbaik. Oleh karena itu, kita akan menggunakan model Random Forest ini menjadi model akhir kita dalam mengisi file data_submission.</p>
+</div>
+</div>
+<div id="filling-submission-data" class="section level1">
+<h1><span class="header-section-number">4</span> Filling Submission Data</h1>
+<p>Dari model-model yang telah dibuat diatas, didapat model terbaik yaitu model Random Forest dengan number = 9 dan repeat = 5. Model tersebut telah mencapai Rsquared &gt; 90% dan MAE &lt; 4, sesuai dengan target yang ingin dicapai. Oleh karena itu, langkah selanjutnya adalah mengisi nilai strength pada data_submission dan akan dievaluasi pada website yang disediakan Algoritma.</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" title="1">pred_final &lt;-<span class="st"> </span><span class="kw">predict</span>(train95, data_submission)</a>
+<a class="sourceLine" id="cb119-2" title="2">data_submission<span class="op">$</span>strength &lt;-<span class="st"> </span>pred_final</a>
+<a class="sourceLine" id="cb119-3" title="3"><span class="kw">write.csv</span>(data_submission, <span class="dt">file =</span> <span class="st">&quot;Donigo_concrete-rm-predict.csv&quot;</span>, <span class="dt">row.names =</span> F)</a></code></pre></div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: center;">A work by <a href="https://www.linkedin.com/in/donigofernando/">Donigo Fernando Sinaga</a></p>
+<p style="text-align: center;"><span style="color: #808080;"><em>donigo.fernando@gmail.com</em></span></p>
+
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+    <a href="https://twitter.com/donigofernando?lang=en" class="fa fa-twitter"></a>
+    <a href="https://www.linkedin.com/in/donigofernando/" class="fa fa-linkedin"></a>
+    <a href="https://www.instagram.com/donigofernando/" class="fa fa-instagram"></a>
+</p>
+
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
